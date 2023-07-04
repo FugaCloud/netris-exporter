@@ -1,0 +1,8 @@
+services:
+  netris-exporter:
+    container_name: netris-exporter
+    image: fugacloud/netris-exporter
+    ports:
+      - "3000:3000"
+    volumes:
+      - ${PWD}/config.yaml:/app/config.yaml
