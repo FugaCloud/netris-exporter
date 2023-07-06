@@ -27,6 +27,7 @@ class NetrisExporter(object):
     def get_metrics(self, data):
         for chassis in data:
             name = chassis["name"]
+            site = chassis["site"]["name"]
             for check in chassis["hardwareHealth"]:
                 if check["check_name"] != "check_port":
                     continue
@@ -36,19 +37,19 @@ class NetrisExporter(object):
                 # "swp15 port is UP, 0% RX Utilized of 100 Gbps, 0% TX Utilized of 100 Gbps"
                 m = re.match('^\S+', check["message"])
                 port = m[0]
-                self.status.add_metric([name,port], status)
+                self.status.add_metric([site,name,port], status)
                 m = re.match(r".*(?P<rx>\S+)% RX.+(?P<tx>\S+)% TX.*", check["message"])
                 if m:
-                    self.rx.add_metric([name,port], m["rx"])
-                    self.tx.add_metric([name,port], m["tx"])
+                    self.rx.add_metric([site,name,port], m["rx"])
+                    self.tx.add_metric([site,name,port], m["tx"])
                     
 
 
     def collect(self):
         data = self.lookingglass()
-        self.status = GaugeMetricFamily("netris_port_status", "Port status for network devices managed by Netris", labels=["chassis","port"])
-        self.rx = GaugeMetricFamily("netris_port_rx", "Port RX utilization for network devices managed by Netris", labels=["chassis","port"])
-        self.tx = GaugeMetricFamily("netris_port_tx", "Port TX utilization for network devices managed by Netris", labels=["chassis","port"])
+        self.status = GaugeMetricFamily("netris_port_status", "Port status for network devices managed by Netris", labels=["site","chassis","port"])
+        self.rx = GaugeMetricFamily("netris_port_rx", "Port RX utilization for network devices managed by Netris", labels=["site","chassis","port"])
+        self.tx = GaugeMetricFamily("netris_port_tx", "Port TX utilization for network devices managed by Netris", labels=["site","chassis","port"])
         self.get_metrics(data)
         yield self.status
         yield self.rx
