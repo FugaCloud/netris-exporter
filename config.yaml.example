@@ -1,5 +1,5 @@
 port: 3000
-scrape_frequency: 5
+scrape_frequency: 15
 netris_api: https://example-ctl.netris.io
 user: netris
 password: secret

@@ -1,7 +1,7 @@
 services:
   netris-exporter:
     container_name: netris-exporter
-    image: fugacloud/netris-exporter
+    build: .
     ports:
       - "3000:3000"
     volumes:

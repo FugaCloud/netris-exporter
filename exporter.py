@@ -71,9 +71,6 @@ if __name__ == "__main__":
                 print(error)
 
     start_http_server(port)
-    REGISTRY.unregister(GC_COLLECTOR)
-    REGISTRY.unregister(PLATFORM_COLLECTOR)
-    REGISTRY.unregister(PROCESS_COLLECTOR)
     REGISTRY.register(NetrisExporter(netris_api,user,password))
     while True: 
         # period between collection
