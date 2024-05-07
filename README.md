@@ -1,5 +1,5 @@
 # netris-exporter
-Scrape the Netris API for metrics.
+Scrape the Netris Lookingglass API for metrics.
 
 ## Build and Deploy
 
